@@ -1,0 +1,27 @@
+# process for importing dictionary data. This is a one time import, so I just did it from the console,
+# but if this was a task that needed to be performed on a periodic basis, I'd write a rake task for it.
+#
+# Note that the data I imported came from a Purdue dataset and included \n characters.
+
+mysfitt@pixie:~/Code/ruby/fifty-fifty/vendor$ rails console
+Loading development environment (Rails 5.0.2)
+irb(main):001:0> wordlist = File.new("vendor/words.english", "r")
+=> #<File:vendor/words.english>
+irb(main):002:0> wordlist.path
+=> "vendor/words.english"
+irb(main):003:0> wl = Array.new
+=> []
+irb(main):004:0> wordlist.each do |w|
+irb(main):005:1* wl.push w.chomp
+irb(main):006:1> end
+=> #<File:vendor/words.english>
+irb(main):007:0> wl.count
+=> 26880
+irb(main):008:0> wl.first
+=> "10th"
+wl.each do |w|
+  dict = Dictionary.new do |d|
+    d.word = w
+  end
+  dict.save
+end
