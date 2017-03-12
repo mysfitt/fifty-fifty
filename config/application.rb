@@ -27,5 +27,13 @@ module FiftyFifty
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
     #config.middleware.use  ActionController::HttpAuthentication::Token
+
+    # Rack CORS config. So the AJAX stuff will work.
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins '*'
+        resource '*', :headers => :any, :methods => [:get, :post, :options]
+      end
+    end
   end
 end
